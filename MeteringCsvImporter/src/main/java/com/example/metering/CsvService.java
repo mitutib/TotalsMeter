@@ -61,7 +61,7 @@ public class CsvService {
                 log.info("Importing file: " + f.getAbsolutePath());
                 List<MeteringRecord> rows = parseCsv(f);
 
-                // 1) Aggregate duplicates on full key (without value)
+
                 Map<MeteringRecord, BigDecimal> agg = new LinkedHashMap<>();
                 for (MeteringRecord r : rows) {
                     agg.merge(r, r.getValue(), BigDecimal::add);
@@ -72,7 +72,7 @@ public class CsvService {
                     return r;
                 }).collect(Collectors.toList());
 
-                // 2) Totals ONLY by meter_id
+
                 Map<Integer, BigDecimal> totalsByMeter = new LinkedHashMap<>();
                 for (MeteringRecord r : aggregated) {
                     totalsByMeter.merge(r.getMeterId(), r.getValue(), BigDecimal::add);
